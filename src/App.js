@@ -22,6 +22,20 @@ function App() {
       });
   }, []);
 
+  window.addEventListener("unhandledrejection", (event) => {
+    console.error("Unhandled promise rejection:", event.reason);
+    setError("Error while fetching data.");
+  });
+
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      console.error("Interceptor caught error:", error);
+      setError("Error while fetching data.");
+      return Promise.reject(error);
+    }
+  );
+
   return (
     <div className="App">
       <h1>Flags of Different Countries of the World</h1>
@@ -29,7 +43,7 @@ function App() {
 
       <div className="flag-container">
         {countries.map((country) => (
-          <div key={country.abbr} className="flag-item">
+          <div key={country.name} className="flag-item">
             <div className="flags">
               <img
                 src={country.flag}
