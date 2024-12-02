@@ -17,20 +17,20 @@ function App() {
         setCountries(response.data);
       })
       .catch((err) => {
-        console.error("Error while fetching data: ", err);
+        console.error("Error fetching data: ", err);
         setError("Failed to load country data.");
       });
   }, []);
 
   window.addEventListener("unhandledrejection", (event) => {
-    console.error("Unhandled promise rejection:", event.reason);
+    console.error("Error fetching data: ", event.reason);
     setError("Error while fetching data.");
   });
 
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.error("Interceptor caught error:", error);
+      console.error("Error fetching data: ", error);
       setError("Error while fetching data.");
       return Promise.reject(error);
     }
